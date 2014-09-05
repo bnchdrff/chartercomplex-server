@@ -45,12 +45,12 @@ app.get('/edges.json', function(req, res, next) {
       var edges = [];
       sheet.feed.entry.forEach(function(val, idx) {
         var edge = {
-          source: val.title.$t,
-          target: (val.content.$t.match(/target: ([0-9]*)/)) ? val.content.$t.match(/target: ([0-9]*)/)[1] : null,
+          source: parseInt(val.title.$t, 10),
+          target: (val.content.$t.match(/target: ([0-9]*)/)) ? parseInt(val.content.$t.match(/target: ([0-9]*)/)[1], 10) : null,
           label: (val.content.$t.match(/label: ([^,]*)(?:,|$)/)) ? val.content.$t.match(/label: ([^,]*)(?:,|$)/)[1] : null,
-          amount: (val.content.$t.match(/amount: ([^,]*)(?:,|$)/)) ? val.content.$t.match(/amount: ([^,]*)(?:,|$)/)[1] : null,
-          startyear: (val.content.$t.match(/startyear: ([^,]*)(?:,|$)/)) ? val.content.$t.match(/startyear: ([^,]*)(?:,|$)/)[1] : null,
-          endyear: (val.content.$t.match(/endyear: ([^,]*)(?:,|$)/)) ? val.content.$t.match(/endyear: ([^,]*)(?:,|$)/)[1] : null,
+          amount: (val.content.$t.match(/amount: ([^,]*)(?:,|$)/)) ? parseInt(val.content.$t.match(/amount: ([^,]*)(?:,|$)/)[1], 10) : null,
+          startyear: (val.content.$t.match(/startyear: ([^,]*)(?:,|$)/)) ? parseInt(val.content.$t.match(/startyear: ([^,]*)(?:,|$)/)[1], 10) : null,
+          endyear: (val.content.$t.match(/endyear: ([^,]*)(?:,|$)/)) ? parseInt(val.content.$t.match(/endyear: ([^,]*)(?:,|$)/)[1], 10) : null,
           tags: (val.content.$t.match(/tags: ([^,]*)(?:,|$)/)) ? val.content.$t.match(/tags: ([^,]*)(?:,|$)/)[1] : null,
           citation: (val.content.$t.match(/citation: ([^,]*)(?:,|$)/)) ? val.content.$t.match(/citation: ([^,]*)(?:,|$)/)[1] : null,
           importance: (val.content.$t.match(/importance: ([^,]*)(?:,|$)/)) ? val.content.$t.match(/importance: ([^,]*)(?:,|$)/)[1] : null,
