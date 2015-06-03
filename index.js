@@ -10,8 +10,8 @@ pantry.configure({
 });
 
 var sheet_urls = {
-  nodes: 'https://spreadsheets.google.com/feeds/list/0Aty9maMoYSDFdFd6aVpFNFZucDk5R3NkajJ6a3JvOXc/1/public/basic/?alt=json',
-  edges: 'https://spreadsheets.google.com/feeds/list/0Aty9maMoYSDFdFd6aVpFNFZucDk5R3NkajJ6a3JvOXc/2/public/basic/?alt=json'
+  nodes: 'https://spreadsheets.google.com/feeds/list/18g7yJg3fkkwHZQF8BaJMnUsaJDWI43S_5MyxKM2-_3M/1/public/basic/?alt=json',
+  edges: 'https://spreadsheets.google.com/feeds/list/18g7yJg3fkkwHZQF8BaJMnUsaJDWI43S_5MyxKM2-_3M/2/public/basic/?alt=json'
 };
 
 app.get('/nodes.json', function(req, res, next) {
