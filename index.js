@@ -1,27 +1,40 @@
-var pantry = require('pantry');
+var request = require('request');
+var cachedRequest = require('cached-request')(request);
+var cacheDirectory = "/tmp/cache";
+
 var express = require('express');
 var app = express();
 
 var port = process.env.PORT || 31337;
 
-pantry.configure({
-  shelfLife: 30,
-  maxLife: 3600
-});
+cachedRequest.setCacheDirectory(cacheDirectory);
+
+var ttl = 30;
+//var sheetId = '18g7yJg3fkkwHZQF8BaJMnUsaJDWI43S_5MyxKM2-_3M';
+var sheetId = '1NedxZi-c29G_x45ZfWAIf0-pVHolggwV4ejj-OYFirA';
+var urlBase = 'https://spreadsheets.google.com/feeds/list/' + sheetId + '/';
+var urlSuffix = '/public/values?alt=json';
 
 var sheet_urls = {
-  nodes: 'https://spreadsheets.google.com/feeds/list/18g7yJg3fkkwHZQF8BaJMnUsaJDWI43S_5MyxKM2-_3M/1/public/basic/?alt=json',
-  edges: 'https://spreadsheets.google.com/feeds/list/18g7yJg3fkkwHZQF8BaJMnUsaJDWI43S_5MyxKM2-_3M/2/public/basic/?alt=json'
+  nodes: {
+    url: urlBase + '1' + urlSuffix,
+    ttl: ttl,
+  },
+  edges: {
+    url: urlBase + '2' + urlSuffix,
+    ttl: ttl,
+  },
 };
 
 app.get('/nodes.json', function(req, res, next) {
   res.type('application/json');
 
-  pantry.fetch(sheet_urls.nodes, function(err, sheet, type) {
-    if (err) {
-      res.send(500);
+  cachedRequest(sheet_urls.nodes, function (error, response, body) {
+    if (error) {
+      res.sendStatus(500);
     } else {
       var nodes = [];
+      var sheet = JSON.parse(body);
       sheet.feed.entry.forEach(function(val, idx) {
         nodes.push({
           id: parseInt(val.title.$t, 10),
@@ -38,11 +51,12 @@ app.get('/nodes.json', function(req, res, next) {
 app.get('/edges.json', function(req, res, next) {
   res.type('application/json');
 
-  pantry.fetch(sheet_urls.edges, function(err, sheet, type) {
-    if (err) {
-      res.send(500);
+  cachedRequest(sheet_urls.edges, function (error, response, body) {
+    if (error) {
+      res.sendStatus(500);
     } else {
       var edges = [];
+      var sheet = JSON.parse(body);
       sheet.feed.entry.forEach(function(val, idx) {
         var edge = {
           source: parseInt(val.title.$t, 10),

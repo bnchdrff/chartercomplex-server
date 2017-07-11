@@ -1,6 +1,6 @@
 {
   "name": "chartercomplex-server",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "serve node and edge data from a google spreadsheet",
   "main": "index.js",
   "scripts": {
@@ -14,10 +14,11 @@
   "author": "Benjamin Chodoroff",
   "license": "GPLv2",
   "dependencies": {
-    "express": "~3.4.8",
-    "pantry": "~0.7.0"
+    "cached-request": "^1.1.2",
+    "express": "^4.15.3",
+    "request": "^2.81.0"
   },
   "engines": {
-    "node": "0.10.x"
+    "node": "8.x"
   }
 }
